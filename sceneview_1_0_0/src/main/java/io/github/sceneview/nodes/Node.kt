@@ -188,8 +188,12 @@ open class Node(
     fun addChildNodes(nodes: List<Node>) = nodes.forEach { addChildNode(it) }
 
     fun removeChildNode(child: Node) {
-        child.parentEntity = null
-        onChildRemoved.forEach { it(child) }
+        if (!child.isDestroyed()) {
+            child.parentEntity = null
+            onChildRemoved.forEach {
+                it(child)
+            }
+        }
     }
 
     /**
@@ -236,7 +240,6 @@ open class Node(
 ////        position = value - getBoundingBox().centerPosition * scale
 //    }
 
-
     protected open fun updateVisibility(visible: Boolean) {
         childNodes.forEach { childNode ->
             (childNode as? RenderableComponent)?.setLayerVisible(isVisible)
@@ -260,8 +263,10 @@ open class Node(
 
     open fun destroy() {
         childNodes.forEach {
-            it.destroy()
-            removeChildNode(it)
+            if (!it.isDestroyed()) {
+                it.destroy()
+                removeChildNode(it)
+            }
         }
         nodeManager.removeComponent(entity)
         engine.destroyEntity(entity)
@@ -270,4 +275,6 @@ open class Node(
         _engine = null
         _nodeManager = null
     }
+
+    private fun isDestroyed(): Boolean = _engine == null
 }

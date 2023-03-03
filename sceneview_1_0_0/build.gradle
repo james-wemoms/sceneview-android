@@ -1,8 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'filament-tools-plugin'
-    id 'org.jetbrains.dokka'
 }
 // *************************************************************************************************
 // Filament Plugin
@@ -36,7 +34,7 @@ if (project.properties['filamentPluginEnabled']?.toBoolean()) {
 }
 // *************************************************************************************************
 
-group = GROUP
+group = 'io.github.sceneview'
 version = VERSION_NAME
 
 android {
@@ -86,7 +84,7 @@ android {
 dependencies {
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.21"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
@@ -122,5 +120,3 @@ dependencies {
     // Android View Lifecycle
     api "com.gorisse.thomas:android-view-lifecycle:1.0.5"
 }
-
-apply plugin: "com.vanniktech.maven.publish"

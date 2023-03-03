@@ -317,7 +317,7 @@ open class SceneView @JvmOverloads constructor(
      * @see NodeManager.getNode
      */
     val allChildNodes: List<Node>
-        get() = nodeManager.entities.filter { scene.hasEntity(it) }
+        get() = nodeManager.entityNodes.keys.filter { scene.hasEntity(it) }
             .mapNotNull { nodeManager.getNode(it) }
 
     /**
@@ -697,7 +697,6 @@ open class SceneView @JvmOverloads constructor(
         lightNode?.destroy()
 
         indirectLight?.let { engine.destroyIndirectLight(it) }
-        skybox?.let { engine.destroySkybox(it) }
 
         if (nodeManager != sharedNodeManager) {
             // Destroys all the created nodes
